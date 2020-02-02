@@ -9,9 +9,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+    - name: Setup qiniu qshell environment
+      uses: foxundermoon/setup-qshell@v1.0
+      with:
+        qshell-version: 2.4.1
+    - name: login 
+      run: qshell account ${{ secrets.AK }} ${{ secrets.SK }} default
+    - name: upload
+      run: qshell qupload2 --src-dir ./ --bucket ${{ secrets.BK }}
